@@ -3,6 +3,7 @@ package com.example.demo.registration;
 import com.example.demo.appuser.AppUser;
 import com.example.demo.appuser.AppUserRole;
 import com.example.demo.appuser.AppUserService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,16 @@ public class RegistrationService {
             throw new IllegalStateException(String.format("email: %s is invalid", request.getEmail()));
         }
 
-        return appUserService.signUpUser(new AppUser(
+        String token =  appUserService.signUpUser(new AppUser(
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
-                request.getPassword()
+                request.getPassword(),
+                AppUserRole.valueOf("USER"),
+                false,
+                true
             )
         );
+        return token;
     }
 }
